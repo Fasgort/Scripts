@@ -1,0 +1,3 @@
+[reflection.assembly]::LoadWithPartialName("Microsoft.UpdateServices.Administration") | Out-Null
+$wsus = [Microsoft.UpdateServices.Administration.AdminProxy]::getUpdateServer()
+$wsus.getupdates() | Where {$_.IsRejected -eq $true} | ForEach-Object { $wsus.DeleteUpdate($_.Id.UpdateID); Write-Host $_.Title removed }
